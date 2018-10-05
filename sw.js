@@ -1,3 +1,6 @@
+//Used https://matthewcranford.com/restaurant-reviews-app-walkthrough-part-4-service-workers/
+//and https://www.youtube.com/watch?v=92dtrNU1GQc for help with service worker.
+
 const cacheFiles = [
   '/',
   '/index.html',
@@ -33,7 +36,7 @@ self.addEventListener('install', e => {
   );
 });
 
-//add event listener activate service worker and remove unwanted cache
+//add event listener to activate service worker and remove unwanted cache
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(cacheNames => {
@@ -49,34 +52,11 @@ self.addEventListener('activate', e => {
 });
 
 // clone the request as response is a stream. Need both the browser and
-// cache to consume the response, so need two streams
-/*self.addEventListener('fetch', e => {
-  console.log("fetching now!");
-  e.respondWith(
-    caches.match(e.request).then(response => {
-      if (response) {
-        console.log(e.request, "found in cache");
-        return response;
-      } else {
-        console.log(e.request, "not found in cache, now fetching");
-        return fetch(e.response)
-        .then(response => {
-          const clonedRes = response.clone();
-          caches.open(staticCacheName).then(cache => {
-            cache.put(e.request, clonedRes);
-          });
-          return response;
-        })
-        .catch(err => console.log("not working", err)
-        );
-      }
-    })
-  );
-});*/
-
+// cache to consume the response, so need two streams.
 self.addEventListener('fetch', e => {
   e.respondWith(
     fetch(e.request).then(response => {
+      //if items already in cache, use cache. Otherwise, fetch items and store in cache.
       if (response) {
         return response;
       } else {

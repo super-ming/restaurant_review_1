@@ -1,8 +1,8 @@
 let restaurants,
   neighborhoods,
   cuisines
-var newMap
-var markers = []
+var newMap;
+var markers = [];
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -78,28 +78,15 @@ initMap = () => {
         scrollWheelZoom: false
       });
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-    mapboxToken: 'pk.eyJ1Ijoic3VwZXJtaW5nIiwiYSI6ImNqbGo1NTlxMjA4YnEzamxkZWtjcTd5azgifQ.acu-i_z-DzfLy4KiWyhTAA',
+    mapboxToken: 'pk.eyJ1Ijoic3VwZXJtaW5nIiwiYSI6ImNqb3k1YnR4OTBzeHgza210NjhibjJkNzYifQ.YrytXDPrriYR6A1rMEsm7Q',
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
       '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
       'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     id: 'mapbox.streets'
   }).addTo(newMap);
-
   updateRestaurants();
 }
-/* window.initMap = () => {
-  let loc = {
-    lat: 40.722216,
-    lng: -73.987501
-  };
-  self.map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: loc,
-    scrollwheel: false
-  });
-  updateRestaurants();
-} */
 
 /**
  * Update page and map for current restaurants.
@@ -115,7 +102,7 @@ updateRestaurants = () => {
   const neighborhood = nSelect[nIndex].value;
 
   DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
-    if (error) { // Got an error!
+    if (error) {
       console.error(error);
     } else {
       resetRestaurants(restaurants);
